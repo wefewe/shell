@@ -1,7 +1,6 @@
 #!/bin/bash
 #所有项目的搭建程序
-echo -e "
-1. SSR
+echo -e "1. SSR
 2. Sevpn
 3. Fas
 4. V2ray
@@ -18,16 +17,4 @@ if [[ $pro == 3 ]];then
     wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ $pro == 4 ]];then
     wget -N --no-check-certificate $url/V2Proxy/master/install.sh && bash install.sh;fi
-#判断选择
-while :; do echo
-	read -p "请选择需要搭建的程序:" pro
-	if [[ ! $pro =~ ^[1-4]$ ]]; then
-        if [[ -z ${pro} ]];then
-            exit 0
-        fi
-		echo "输入错误,请输入正确的数字!"
-	else
-		break	
-	fi
-done    
 exit;0
