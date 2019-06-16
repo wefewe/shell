@@ -7,7 +7,7 @@ echo -e "1. SSR
 请选择需要搭建的程序:"
 #赋值
 read pro
-url='https://github.com/MaruKoh'
+url='https://raw.githubusercontent.com/MaruKoh'
 #项目选择
 if [[ $pro == 1 ]];then
     echo "该项目正在构建中…";fi
