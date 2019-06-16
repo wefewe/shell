@@ -1,6 +1,6 @@
 #!/bin/bash
 #所有项目的搭建程序
-echo -e "请选择需要搭建的程序:	
+echo -e "所有项目的搭建程序:	
 1. SSR
 2. Sevpn
 3. Fas
