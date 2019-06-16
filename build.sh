@@ -3,7 +3,7 @@
 echo -e "1. SSR
 2. Sevpn
 3. Fas
-4. V2ray
+4. V2ray\n
 请选择需要搭建的程序:"
 #赋值
 read pro
