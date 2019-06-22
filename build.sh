@@ -17,5 +17,5 @@ if [[ $pro == 3 ]];then
     wget -N --no-check-certificate -q $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ $pro == 4 ]];then
     wget -N --no-check-certificate -q $url/V2Proxy/master/install.sh && bash install.sh;fi
-exit;0
 rm -rf /root/build.sh
+exit;0
