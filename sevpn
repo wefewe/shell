@@ -700,8 +700,6 @@ echo -e -n "       \033[40;37;5m   请选择 [ 1 , 2 , 3 , 4 , 5 , 6 , S , Q , X
        ;;
   esac
 back_memu
-
-}
 function link_(){
 if [ ! -f $myfile ]; then 
     cd /usr/bin && wget ${address}/sevpn >/dev/null 2>&1
