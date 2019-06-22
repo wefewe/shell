@@ -1,6 +1,6 @@
 #!/bin/bash
 #所有项目的搭建程序
-echo -e "1. SSR
+echo -e "\n1. SSR
 2. Sevpn
 3. Fas
 4. V2ray\n
