@@ -1,2 +1,1 @@
-#Openvpn
-康师傅
+#shell
