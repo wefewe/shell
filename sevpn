@@ -700,7 +700,6 @@ clear
 echo -e "\e[1;36mUninstall success!\e[0m"
 exit 1
 }
-rootness
 link_
 memu
 
