@@ -1,8 +1,8 @@
 #!/bin/bash
-#所有项目的程序
 bule="\033[34m"
 green="\033[32m"
 clear="\033[0m"
+
 url="https://raw.githubusercontent.com/MaruKoh"
 rm -rf /root/build.sh
 
@@ -22,7 +22,7 @@ while :; do echo
 		break	
 	fi
 done
-#项目选择
+
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
