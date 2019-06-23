@@ -716,8 +716,5 @@ function back_memu(){
     read
     memu
 }
-
-link_
-memu
-
+menu
 exit 0
