@@ -12,9 +12,8 @@ echo -e "\n1.SSR"
 echo -e "\n2.V2Ray"
 echo -e "\n3.SeVPN"
 echo -e "\n4.OpenVPN"
-echo -e "\n请选择需要搭建的程序："
 while :; do echo
-	read -p "请选择： " choice
+	read -p "请选择需要搭建的程序： " choice
 	if [[ ! $choice =~ ^[1-4]$ ]]; then
         if [[ -z ${choice} ]];then
             exit 0
@@ -35,7 +34,7 @@ if [[ $choice == 4 ]]; then
     echo -e "\n1.Fas"
     echo -e "\n2.快云"
     echo -e "\n3.小洋人"
-	    read -p "请选择： " schoice
+	    read -p "请选择需要搭建的程序： " schoice
 
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
