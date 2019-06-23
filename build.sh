@@ -45,7 +45,6 @@ if [[ $choice == 4 ]]; then
 		    break
 	    fi
     done
-read -p "请选择： " schoice    
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ ${schoice} == 2 ]]; then
