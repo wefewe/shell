@@ -33,7 +33,8 @@ if [[ $choice == 4 ]]; then
     echo -e "\n1.Fas"
     echo -e "\n2.快云"
     echo -e "\n3.小洋人"
-	    if [[ ! $schoice =~ ^[1-5]$ ]]; then
+	    read -p "请选择： " schoice
+	    if [[ ! $schoice =~ ^[1-3]$ ]]; then
             if [[ -z ${schoice} ]];then
                 exit 0
             fi
