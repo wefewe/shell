@@ -10,6 +10,17 @@ echo -e "\n2.V2Ray"
 echo -e "\n3.SeVPN"
 echo -e "\n4.OpenVPN"
 echo -e "\n请选择需要搭建的程序："
+while :; do echo
+	read -p "请选择： " choice
+	if [[ ! $choice =~ ^[1-4]$ ]]; then
+        if [[ -z ${choice} ]];then
+            exit 0
+        fi
+		echo "输入错误! 请输入正确的数字!"
+	else
+		break	
+	fi
+done
 #赋值
 read choice
 url='https://raw.githubusercontent.com/MaruKoh'
@@ -24,11 +35,21 @@ if [[ $choice == 4 ]]; then
     echo -e "\n1.Fas"
     echo -e "\n2.快云"
     echo -e "\n3.小洋人"
-fi    
+fi
+	    if [[ ! $schoice =~ ^[1-5]$ ]]; then
+            if [[ -z ${schoice} ]];then
+                bash /root/build.sh
+                exit 0
+            fi
+		    echo "输入错误! 请输入正确的数字!"
+	    else
+		    break
+	    fi
+    done
 read -p "请选择： " schoice    
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ ${schoice} == 2 ]]; then
     wget $url/ky/master/ky.sh && bash ky.sh;fi
-if [[ ${schoice} == 2 ]]; then
+if [[ ${schoice} == 3 ]]; then
     wget $url/shell/master/install.sh && bash install.sh;fi
