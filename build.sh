@@ -48,6 +48,7 @@ if [[ ${schoice} == 2 ]]; then
 if [[ ${schoice} == 3 ]]; then
     wget -q $url/shell/master/cherry.sh && bash cherry.sh;fi
 fi
+
 rm -rf build.sh
 rm -rf ssr.sh
 rm -rf install.sh
