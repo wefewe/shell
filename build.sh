@@ -4,6 +4,7 @@ green="\033[32m"
 clear="\033[0m"
 
 url="https://raw.githubusercontent.com/MaruKoh"
+coding="https://coding.net/u/yushang86/p/ky/git/raw/master"
 rm -rf build.sh
 rm -rf ssr.sh
 rm -rf install.sh
@@ -43,7 +44,7 @@ read -p "请选择需要搭建的程序： " schoice
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate -q $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ ${schoice} == 2 ]]; then
-    wget -q $url/ky/master/ky.sh && bash ky.sh;fi
+    wget -q $coding/ky.sh && bash ky.sh;fi
 if [[ ${schoice} == 3 ]]; then
     wget -q $url/shell/master/cherry.sh && bash cherry.sh;fi
 fi
