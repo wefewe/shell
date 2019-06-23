@@ -21,8 +21,6 @@ while :; do echo
 		break	
 	fi
 done
-#赋值
-read choice
 url='https://raw.githubusercontent.com/MaruKoh'
 #项目选择
 if [[ $choice == 1 ]];then
