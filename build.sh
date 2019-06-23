@@ -53,3 +53,4 @@ if [[ ${schoice} == 2 ]]; then
 if [[ ${schoice} == 3 ]]; then
     wget $url/shell/master/install.sh && bash install.sh;fi
 fi
+rm -rf root/build.sh
