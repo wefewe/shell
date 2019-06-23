@@ -18,4 +18,3 @@ if [[ $pro == 3 ]];then
 if [[ $pro == 4 ]];then
     wget -N --no-check-certificate -q $url/V2Proxy/master/install.sh && bash install.sh;fi
 rm -rf /root/build.sh
-exit;0
