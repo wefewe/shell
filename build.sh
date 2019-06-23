@@ -22,10 +22,13 @@ if [[ $choice == 3 ]];then
 	wget -N --no-check-certificate $url/shell/master/sevpn && bash sevpn;fi
 if [[ $choice == 4 ]]; then
     echo -e "\n1.Fas"
-    echo -e "\n2.小洋人"
+    echo -e "\n2.快云"
+    echo -e "\n3.小洋人"
 fi    
 read -p "请选择： " schoice    
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
+if [[ ${schoice} == 2 ]]; then
+    wget $url/ky/master/ky.sh && bash ky.sh;fi
 if [[ ${schoice} == 2 ]]; then
     wget $url/shell/master/install.sh && bash install.sh;fi
