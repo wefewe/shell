@@ -1,8 +1,8 @@
 #!/bin/bash
 #所有项目的搭建程序
-bule=\033[34m
-green=\033[32m
-clear=\033[0m
+bule="\033[34m"
+green="\033[32m"
+clear="\033[0m"
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo ""
 echo -e "\n1.SSR"
