@@ -21,8 +21,8 @@ if [[ $choice == 2 ]];then
 if [[ $choice == 3 ]];then
 	wget -N --no-check-certificate $url/shell/master/sevpn && bash sevpn;fi
 if [[ $choice == 4 ]]; then
-    echo "1.Fas"
-    echo "2.小洋人"
+    echo -e "\n1.Fas"
+    echo -e "\n2.小洋人"
 fi    
 read -p "请选择： " schoice    
 if [[ ${schoice} == 1 ]]; then
