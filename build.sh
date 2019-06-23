@@ -7,7 +7,6 @@ url="https://raw.githubusercontent.com/MaruKoh"
 rm -rf root/build.sh
 
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
-echo ""
 echo -e "\n1.SSR"
 echo -e "\n2.V2Ray"
 echo -e "\n3.SeVPN"
