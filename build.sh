@@ -35,7 +35,6 @@ if [[ $choice == 4 ]]; then
     echo -e "\n3.小洋人"
 	    if [[ ! $schoice =~ ^[1-5]$ ]]; then
             if [[ -z ${schoice} ]];then
-                bash /root/build.sh
                 exit 0
             fi
 		    echo "输入错误! 请输入正确的数字!"
