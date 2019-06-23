@@ -5,6 +5,7 @@ green="\033[32m"
 clear="\033[0m"
 url="https://raw.githubusercontent.com/MaruKoh"
 rm -rf root/build.sh
+
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo ""
 echo -e "\n1.SSR"
@@ -41,6 +42,6 @@ if [[ ${schoice} == 1 ]]; then
 if [[ ${schoice} == 2 ]]; then
     wget $url/ky/master/ky.sh && bash ky.sh;fi
 if [[ ${schoice} == 3 ]]; then
-    wget $url/shell/master/install.sh && bash install.sh;fi
+    wget $url/shell/master/cherry.sh && bash cherry.sh;fi
 fi
 rm -rf root/build.sh
