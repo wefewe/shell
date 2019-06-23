@@ -36,6 +36,7 @@ if [[ $choice == 4 ]]; then
 	    read -p "请选择： " schoice
 	    if [[ ! $schoice =~ ^[1-3]$ ]]; then
             if [[ -z ${schoice} ]];then
+                bash /root/build.sh
                 exit 0
             fi
 		    echo "输入错误! 请输入正确的数字!"
