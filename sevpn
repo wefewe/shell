@@ -1,20 +1,20 @@
 #!/bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-myfile=/root/sevpn
+myfile=/usr/bin/sevpn
 nettools=/bin/netstat
-#赋值
 address=https://github.com/SoftEtherVPN/SoftEtherVPN_Stable/releases/download/v4.29-9680-rtm
 rm -rf sevpn
 clear
-#安装组件
+
+
 if [ ! -f $nettools ]; then 
-    echo "正在安装组件!"
+    echo "缺少组件,正在安装...骚等!"
 	yum install net-tools -y >/dev/null 2>&1
 	apt-get install net-tools -y >/dev/null 2>&1
 fi
+
 rm -rf sevpn* >/dev/null 2>&1
-#检测IP
 function check_ip(){
 IP=`wget http://members.3322.org/dyndns/getip -O - -q; echo`
     if [[ "$IP" == "" ]];then
@@ -22,8 +22,13 @@ IP=`wget http://members.3322.org/dyndns/getip -O - -q; echo`
     read IP
     fi
 }
-#检查是否为Root
-[ $(id -u) != "0" ] && { echo "Error: You must be root to run this script"; rm -rf sevpn* >/dev/null 2>&1; exit 1; }
+function rootness(){
+    if [[ $EUID -ne 0 ]]; then
+       echo "错误：请使用root用户进行安装!" 
+	   rm -rf sevpn* >/dev/null 2>&1
+       exit 1
+    fi
+}
 
 # Get version
 function getversion(){
@@ -85,13 +90,14 @@ function install_dep(){
         apt-get install gcc make expect unzip zip psmisc curl -y
 		apt-get install openssl -y
     fi
+
+
 }
-#download
 function set32(){
 rm -rf /vpnserver* >/dev/null 2>&1
 cd /
-wget ${address}/softether-vpnserver-v4.29-9680-rtm-2019.02.28-linux-x86-32bit.tar.gz
-tar -zxvf softether-vpnserver-v4.29-9680-rtm-2019.02.28-linux-x86-32bit.tar.gz
+wget ${address}/softether-vpnserver-v4.25-9656-rtm-2018.01.15-linux-x86-32bit.tar.gz
+tar -zxvf softether-vpnserver-v4.25-9656-rtm-2018.01.15-linux-x86-32bit.tar.gz
 rm -rf /softether-vpnserve*
 }
 
@@ -99,39 +105,51 @@ rm -rf /softether-vpnserve*
 function set64(){
 rm -rf /vpnserver* >/dev/null 2>&1
 cd /
-wget ${address}/softether-vpnserver-v4.29-9680-rtm-2019.02.28-linux-x64-64bit.tar.gz
-tar -zxvf softether-vpnserver-v4.29-9680-rtm-2019.02.28-linux-x64-64bit.tar.gz
+wget ${address}/softether-vpnserver-v4.25-9656-rtm-2018.01.15-linux-x64-64bit.tar.gz
+tar -zxvf softether-vpnserver-v4.25-9656-rtm-2018.01.15-linux-x64-64bit.tar.gz
 rm -rf /softether-vpnserve*
 }
 
 function get_ready(){
-read -p "请输入Sevpn管理密码(默认passwd):" VPNPASSWD
-[ -z "$VPNPASSWD" ] && VPNPASSWD="passwd"
+echo -e "感谢使用一键Sevpn脚本,我是\033[40;31m 寂寞爱上海 \033[0m!"
+read -p "(回车将默认设置Sevpn管理密码为: yaohuo):" VPNPASSWD
+[ -z "$VPNPASSWD" ] && VPNPASSWD="yaohuo"
 echo
-echo -e "Sevpn管理密码已设置为:\033[32m "$VPNPASSWD" \033[0m"
+echo "---------------------------------------"
+echo "Ok，Sevpn管理密码已设置为 = $VPNPASSWD"
+echo "---------------------------------------"
 echo
-read -p "请输入创建的VPN账号(默认admin):" USER
-[ -z "$USER" ] && USER="admin"
+echo -e "输入你要创建的VPN账号"
+read -p "(回车将默认设置VPN账号为：yaohuo):" USER
+[ -z "$USER" ] && USER="yaohuo"
 echo
-echo "VPN账号已设置为:\033[32m "$USER" \033[0m"
+echo "---------------------------"
+echo "Ok，VPN账号已设置为 = $USER"
+echo "---------------------------"
 echo
-read -p "请输入$USER账号密码(默认123456):" USERPWD
-[ -z "$USERPWD" ] && USERPWD="123456"
+echo -e "输入VPN账号的密码"
+read -p "(回车将默认设置相应$USER账号密码为：yaohuo):" USERPWD
+[ -z "$USERPWD" ] && USERPWD="yaohuo"
 echo
-echo "$USER密码已设置为:\033[32m "$USERPWD" \033[0m"
+echo "--------------------------------"
+echo "Ok，$USER密码已设置为 = $USERPWD"
+echo "--------------------------------"
 echo
-echo "SeVPN默认开启端口: 443"
-echo "mproxy默认设置端口: 8080"
+echo "SeVPN默认开启443TCP端口"
+echo "默认设置MP端口为: 8080(三网通)"
 
-read -p "请输入伪装的域名(默认bing.com):" Domain
-[ -z "$Domain" ] && Domain="bing.com"
+echo -e "输入可以免流的host"
+read -p "(回车将默认设置相应自定义host为：vod3.nty.tv189.cn):" HOST
+[ -z "$HOST" ] && HOST="vod3.nty.tv189.cn"
 echo
-echo "伪装域名已设置为: \033[32m "$Domain" \033[0m"
+echo "----------------------------------"
+echo "Ok，host已设置为 = $HOST"
+echo "----------------------------------"
 echo
-echo -e -n "\e[1;31m\n配置结束,回车安装\e[0m"
+echo -e -n "\e[1;31m\n个人设置完毕,请按回车开始安装!\e[0m"
 read
 }
-#install sevpn
+#安装sevpn
 function install_sevpn(){
     check_ip
     get_ready
@@ -152,7 +170,7 @@ cd /vpnserver
 
 ./vpnserver start
 }
-#download files
+#下载文件
 function download_files(){
 echo "正在判定系统 32位 OR 64位..."
     sleep 3
@@ -276,6 +294,7 @@ rm -f *l2.ovpn >/dev/null 2>&1
 sed -i "/# */d" sevpn.ovpn
 sed -i "/;http*/d" sevpn.ovpn
 sed -i "1a# 本文件由系统自动生成" sevpn.ovpn
+sed -i "2a# 本脚本由寂寞爱上海制作" sevpn.ovpn
 sed -i "15adhcp-option DNS 114.114.115.115" sevpn.ovpn
 sed -i "15adhcp-option DNS 114.114.114.114" sevpn.ovpn
 
@@ -289,6 +308,18 @@ cp sevpn.ovpn udp68.ovpn
 sed -i "s/remote.*/remote $IP 68/g" udp68.ovpn
 
 sed -i "s/^proto.*/proto tcp/g" sevpn.ovpn
+
+#echo "生成18889模式"
+#cp sevpn.ovpn 18889.ovpn
+#sed -i "15i</http-proxy-user-pass>" 18889.ovpn
+#sed -i "15iGerge@zx133M#" 18889.ovpn
+#sed -i "15izxin112ed332" 18889.ovpn
+#sed -i "15i<http-proxy-user-pass>" 18889.ovpn
+#sed -i "15ihttp-proxy 119.39.227.247 18889" 18889.ovpn
+#sed -i "15iremote $IP 443" 18889.ovpn
+#sed -i "15i#全国联通直连18889" 18889.ovpn
+
+
 
 echo "生成酷视卡"
 cp sevpn.ovpn 酷视卡.ovpn
@@ -315,7 +346,6 @@ sed -i "15i#####自定义HOST转发#####" 自定义.ovpn
 zip -r sevpn.zip 酷视卡.ovpn 广东娱乐.ovpn 自定义.ovpn udp53.ovpn udp67.ovpn udp68.ovpn >/dev/null 2>&1
 echo
 clear
-rm -f sevpn.ovpn* >/dev/null 2>&1
 rm -f 16751.zip* >/dev/null 2>&1
 echo "正在上传至transfer网站..."
 sleep 1
@@ -326,16 +356,24 @@ echo -e "\033[41;37m 请复制上面网址链接到浏览器下载SeVPN ovpn \03
 cd /vpnserver && sed -i "s/en/cn/g" lang.config
 rm -rf /vpnserver/*_log >/dev/null 2>&1
 
-#SeVPN配置信息
 echo -e "
-SeVPN配置信息:
-SeVPN管理密码:\033[41;37m $VPNPASSWD \033[0m
-SeVPN用户账号:\033[41;37m $USER \033[0m
-SeVPN用户密码:\033[41;37m $USERPWD \033[0m
-MProxy代理端口:\033[41;37m 8080 \033[0m"
+         =============================================
+        
+         牢记你的
+                        SEVPN管理密码:\033[41;37m $VPNPASSWD \033[0m
+						
+                              VPN账号:\033[41;37m $USER \033[0m
+							  
+                              VPN密码:\033[41;37m $USERPWD \033[0m
+							  
+	               Mproxy代理端口:\033[41;37m 8080 \033[0m
+    
+         ============================================="
 echo "                         "
 echo
+
     back_memu
+
 }
 
 function cxall(){
@@ -547,72 +585,20 @@ ewin=/4091293/
 function memu(){
 rm -rf /vpnserver/*_log >/dev/null 2>&1
     clear
-echo -e "\033[34m   欢迎使用 SeVPN 管理程序\033[0m 原作者:寂寞爱上海"
-echo ""
-echo -e "\n1.服务管理"
-echo -e "\n2.用户管理"
-echo -e "\n3.导出配置"
-echo -e "\n4.卸载SeVPN程序"
-echo -e "\n请输入数字选择功能(按回车键退出)："
-while :; do echo
-	read -p "请选择： " choice
-	if [[ ! $choice =~ ^[1-4]$ ]]; then
-        if [[ -z ${choice} ]];then
-            exit 0
-        fi
-		echo "输入错误! 请输入正确的数字!"
-	else
-		break	
-	fi
-done
+echo "
 
-if [[ ${choice} == 1 ]]; then
-    echo "1.安装SeVPN"
-    echo "2.启动SeVPN"
-    while :; do echo
-	    read -p "请选择： " schoice
-	    if [[ ! $schoice =~ ^[1-2]$ ]]; then
-            if [[ -z ${schoice} ]];then
-                bash /root/sevpn
-                exit 0
-            fi
-		    echo "输入错误! 请输入正确的数字!"
-	    else
-		    break
-	    fi
-    done
-if [[ ${choice} == 2 ]]; then
-    echo ""
-    echo "1.创建用户"
-    echo "2.查询用户"
-    echo "3.删除用户"
-    echo ""
-    echo "请输入数字选择功能："
-
-    while :; do echo
-	    read -p "请选择： " changechoice
-	    if [[ ! $changechoice =~ ^[1-3]$ ]]; then
-            if [[ -z ${changechoice} ]];then
-                bash /root/sevpn
-                exit 0
-            fi
-		    echo "输入错误! 请输入正确的数字!"
-	    else
-		    break
-	    fi
-    done
-if [[ ${choice} == 3 ]]; then
-    echo "正在导出配置"
-fi
-if [[ ${choice} == 4 ]]; then
-killall -9 vpnserver >/dev/null 2>&1
-killall -9 mproxy >/dev/null 2>&1
-rm -rf /vpnserver >/dev/null 2>&1
-rm -rf /root/sevpn >/dev/null 2>&1
-clear
-echo -e "\e[1;36mUninstall success!\e[0m"
-exit 1
-fi
+            适用于CentOS 6+ Ubuntu 14.04+ Debian 7+
+			
+       ************************************************
+       *                                              *
+       *      1/2/X:  安装 /重装 /卸载      SeVPN     *
+       *                                              *
+       *      3/4/5:  创建 /查询 /删除       用户     *
+       *                                              *
+       *      6/S/Q:  导出ovpn/启动SeVPN/退出菜单     *
+       *                                              *
+       ******************* SeVPN1.4 by 寂寞爱上海 *****
+"
 sermp=`/usr/bin/pgrep mproxy` >/dev/null 2>&1
 servpn=`/usr/bin/pgrep vpnserver` >/dev/null 2>&1
 tcp443=`netstat -anp | grep vpnserver | grep tcp | grep 443` >/dev/null 2>&1
@@ -669,6 +655,7 @@ echo -e "              Port tcp8080[$mproxyport]"
 echo 
 echo "       快捷键sevpn,与OP,SSR,V2共存端口不冲突即可"
 echo "       无网安全组放端口443/8080tcp,53/67/68udp" 
+echo "       udp67/68需校园网环境,反馈私信4091293@gmail.com"
 echo
 echo -e -n "       \033[40;37;5m   请选择 [ 1 , 2 , 3 , 4 , 5 , 6 , S , Q , X] \033[0m
 
@@ -701,11 +688,11 @@ echo -e -n "       \033[40;37;5m   请选择 [ 1 , 2 , 3 , 4 , 5 , 6 , S , Q , X
   esac
 back_memu
 
-
+}
 function link_(){
 if [ ! -f $myfile ]; then 
     cd /usr/bin && wget ${address}/sevpn >/dev/null 2>&1
-    chmod 777 /root/sevpn >/dev/null 2>&1
+    chmod 777 /usr/bin/sevpn >/dev/null 2>&1
     rm -rf /root/sevpn* >/dev/null 2>&1
 fi
 
@@ -716,5 +703,18 @@ function back_memu(){
     read
     memu
 }
-menu
+
+function uninstall_sevpn (){
+killall -9 vpnserver >/dev/null 2>&1
+killall -9 mproxy >/dev/null 2>&1
+rm -rf /vpnserver >/dev/null 2>&1
+rm -rf /usr/bin/sevpn >/dev/null 2>&1
+clear
+echo -e "\e[1;36m           成功卸载SeVPN!\e[0m"
+exit 1
+}
+rootness
+link_
+memu
+
 exit 0
