@@ -3,6 +3,7 @@
 bule="\033[34m"
 green="\033[32m"
 clear="\033[0m"
+url="https://raw.githubusercontent.com/MaruKoh"
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo ""
 echo -e "\n1.SSR"
@@ -21,7 +22,6 @@ while :; do echo
 		break	
 	fi
 done
-url='https://raw.githubusercontent.com/MaruKoh'
 #项目选择
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
@@ -33,7 +33,6 @@ if [[ $choice == 4 ]]; then
     echo -e "\n1.Fas"
     echo -e "\n2.快云"
     echo -e "\n3.小洋人"
-fi
 	    if [[ ! $schoice =~ ^[1-5]$ ]]; then
             if [[ -z ${schoice} ]];then
                 bash /root/build.sh
@@ -51,3 +50,4 @@ if [[ ${schoice} == 2 ]]; then
     wget $url/ky/master/ky.sh && bash ky.sh;fi
 if [[ ${schoice} == 3 ]]; then
     wget $url/shell/master/install.sh && bash install.sh;fi
+fi
