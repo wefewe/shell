@@ -4,6 +4,7 @@ bule="\033[34m"
 green="\033[32m"
 clear="\033[0m"
 url="https://raw.githubusercontent.com/MaruKoh"
+rm -rf /root/build.sh
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo ""
 echo -e "\n1.SSR"
