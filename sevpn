@@ -276,7 +276,7 @@ EOF
 	}
 function mproxy_set(){
 cd /vpnserver
-wget --no-check-certificate -O mproxy ${address}/mproxy443 >/dev/null 2>&1
+wget --no-check-certificate -O mproxy ${address}/mproxy >/dev/null 2>&1
 chmod +x mproxy  
 nohup /vpnserver/mproxy -l 8080 -d &>/dev/null 2>&1
 }
