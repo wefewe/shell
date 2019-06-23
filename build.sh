@@ -1,20 +1,31 @@
 #!/bin/bash
 #所有项目的搭建程序
-echo -e "\n1. SSR
-2. Sevpn
-3. Fas
-4. V2ray\n
-请选择需要搭建的程序:"
+bule=\033[34m
+green=\033[32m
+clear=\033[0m
+echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
+echo ""
+echo -e "\n1.SSR"
+echo -e "\n2.V2Ray"
+echo -e "\n3.SeVPN"
+echo -e "\n4.OpenVPN"
+echo -e "\n请选择需要搭建的程序："
 #赋值
-read pro
+read choice
 url='https://raw.githubusercontent.com/MaruKoh'
 #项目选择
-if [[ $pro == 1 ]];then
+if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
-if [[ $pro == 2 ]];then
-	wget -N --no-check-certificate -q $url/shell/master/sevpn && bash sevpn;fi
-if [[ $pro == 3 ]];then
-    wget -N --no-check-certificate -q $url/fas-/master/fast.bin && bash fast.bin;fi
-if [[ $pro == 4 ]];then
-    wget -N --no-check-certificate -q $url/V2Proxy/master/install.sh && bash install.sh;fi
-rm -rf /root/build.sh
+if [[ $choice == 2 ]];then
+    wget -N --no-check-certificate $url/V2Proxy/master/install.sh && bash install.sh;fi
+if [[ $choice == 3 ]];then
+	wget -N --no-check-certificate $url/shell/master/sevpn && bash sevpn;fi
+if [[ $choice == 4 ]]; then
+    echo "1.Fas"
+    echo "2.小洋人"
+fi    
+read -p "请选择： " schoice    
+if [[ ${schoice} == 1 ]]; then
+    wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
+if [[ ${schoice} == 2 ]]; then
+    wget $url/shell/master/install.sh && bash install.sh;fi
