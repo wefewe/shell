@@ -33,8 +33,8 @@ if [[ $choice == 4 ]]; then
     echo -e "\n1.Fas"
     echo -e "\n2.快云"
     echo -e "\n3.小洋人"
-	    read -p "请选择需要搭建的程序： " schoice
-
+echo ""
+read -p "请选择需要搭建的程序： " schoice
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ ${schoice} == 2 ]]; then
