@@ -44,7 +44,7 @@ read -p "请选择需要搭建的程序： " schoice
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate -q $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ ${schoice} == 2 ]]; then
-    wget -N --no-check-certificate $coding/ky.sh && bash ky.sh;fi
+    wget -N --no-check-certificate -q $coding/ky.sh && bash ky.sh;fi
 if [[ ${schoice} == 3 ]]; then
     wget -q $url/shell/master/cherry.sh && bash cherry.sh;fi
 fi
