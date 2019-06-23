@@ -35,16 +35,7 @@ if [[ $choice == 4 ]]; then
     echo -e "\n2.快云"
     echo -e "\n3.小洋人"
 	    read -p "请选择： " schoice
-	    if [[ ! $schoice =~ ^[1-3]$ ]]; then
-            if [[ -z ${schoice} ]];then
-                bash /root/build.sh
-                exit 0
-            fi
-		    echo "输入错误! 请输入正确的数字!"
-	    else
-		    break
-	    fi
-    done
+
 if [[ ${schoice} == 1 ]]; then
     wget -N --no-check-certificate $url/fas-/master/fast.bin && bash fast.bin;fi
 if [[ ${schoice} == 2 ]]; then
