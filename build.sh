@@ -46,7 +46,7 @@ if [[ ${schoice} == 1 ]]; then
 if [[ ${schoice} == 2 ]]; then
     wget -N --no-check-certificate -q $coding/ky.sh && bash ky.sh;fi
 if [[ ${schoice} == 3 ]]; then
-    wget -q $url/shell/master/cherry.sh && bash cherry.sh;fi
+    wget -q $url/cherry/master/cherry.sh && bash cherry.sh;fi
 fi
 
 rm -rf build.sh
