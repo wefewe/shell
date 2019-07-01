@@ -32,7 +32,7 @@ done
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
-    wget -N --no-check-certificate -q $url/V2Proxy/master/install.sh && bash install.sh;fi
+    wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh;fi
 if [[ $choice == 3 ]];then
 	wget -N --no-check-certificate -q $url/shell/master/sevpn && bash sevpn;fi
 if [[ $choice == 4 ]]; then
