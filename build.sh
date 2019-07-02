@@ -15,8 +15,9 @@ rm -rf cherry.sh
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo -e "\n1.SSR"
 echo -e "\n2.V2Ray"
-echo -e "\n3.SeVPN"
-echo -e "\n4.OpenVPN"
+echo -e "\n3.V2Ray(web)"
+echo -e "\n4.SeVPN"
+echo -e "\n5.OpenVPN"
 while :; do echo
 	read -p "请选择需要搭建的程序： " choice
 	if [[ ! $choice =~ ^[1-4]$ ]]; then
@@ -34,8 +35,10 @@ if [[ $choice == 1 ]];then
 if [[ $choice == 2 ]];then
     wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh;fi
 if [[ $choice == 3 ]];then
+    wget -q $url/South/master/install.sh && bash install.sh;fi
+if [[ $choice == 4 ]];then
 	wget -N --no-check-certificate -q $url/shell/master/sevpn && bash sevpn;fi
-if [[ $choice == 4 ]]; then
+if [[ $choice == 5 ]]; then
     echo -e "\n1.Fas"
     echo -e "\n2.快云"
     echo -e "\n3.小洋人"
