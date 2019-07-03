@@ -20,7 +20,7 @@ echo -e "\n4.SeVPN"
 echo -e "\n5.OpenVPN"
 while :; do echo
 	read -p "请选择需要搭建的程序： " choice
-	if [[ ! $choice =~ ^[1-4]$ ]]; then
+	if [[ ! $choice =~ ^[1-5]$ ]]; then
         if [[ -z ${choice} ]];then
             exit 0
         fi
