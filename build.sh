@@ -5,12 +5,6 @@ clear="\033[0m"
 
 url="https://raw.githubusercontent.com/MaruKoh"
 coding="https://coding.net/u/yushang86/p/ky/git/raw/master"
-rm -rf build.sh
-rm -rf ssr.sh
-rm -rf install.sh
-rm -rf fas.bin
-rm -rf ky.sh
-rm -rf cherry.sh
 
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo -e "\n1.SSR"
