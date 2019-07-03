@@ -18,18 +18,8 @@ echo -e "\n2.V2Ray"
 echo -e "\n3.V2Ray(web)"
 echo -e "\n4.SeVPN"
 echo -e "\n5.OpenVPN"
-while :; do echo
-	read -p "请选择需要搭建的程序： " choice
-	if [[ ! $choice =~ ^[1-6]$ ]]; then
-        if [[ -z ${choice} ]];then
-            exit 0
-        fi
-		echo "输入错误! 请输入正确的数字!"
-	else
-		break	
-	fi
-done
 
+read -p "请选择需要搭建的程序： " choice
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
