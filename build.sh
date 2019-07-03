@@ -13,7 +13,7 @@ echo -e "\n3.V2Ray(web)"
 echo -e "\n4.SeVPN"
 echo -e "\n5.OpenVPN"
 
-read -p "请选择需要搭建的程序： " choice
+read -p "\n请选择需要搭建的程序： " choice
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
