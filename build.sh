@@ -12,7 +12,7 @@ echo -e "$green\n2.V2Ray$clear"
 echo -e "$green\n3.V2Ray(web)$clear"
 echo -e "$green\n4.SeVPN$clear"
 echo -e "$green\n5.OpenVPN$clear"
-echo -e "$green\n5.Aria2$clear"
+echo -e "$green\n6.Aria2$clear"
 echo
 read -p "请选择需要搭建的程序： " choice
 if [[ $choice == 1 ]];then
