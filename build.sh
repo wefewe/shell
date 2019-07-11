@@ -9,10 +9,10 @@ coding="https://coding.net/u/yushang86/p/ky/git/raw/master"
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo -e "$green\n1.SSR$clear"
 echo -e "$green\n2.V2Ray$clear"
-echo -e "\n3.V2Ray(web)"
-echo -e "\n4.SeVPN"
-echo -e "\n5.OpenVPN"
-echo -e "\n5.Aria2"
+echo -e "$green\n3.V2Ray(web)$clear"
+echo -e "$green\n4.SeVPN$clear"
+echo -e "$green\n5.OpenVPN$clear"
+echo -e "$green\n5.Aria2$clear"
 
 
 read -p "请选择需要搭建的程序： " choice
@@ -25,9 +25,9 @@ if [[ $choice == 3 ]];then
 if [[ $choice == 4 ]];then
 	wget -N --no-check-certificate -q $url/shell/master/sevpn && bash sevpn;fi
 if [[ $choice == 5 ]]; then
-    echo -e "\n1.Fas"
-    echo -e "\n2.快云"
-    echo -e "\n3.小洋人"
+    echo -e "$green\n1.Fas$clear"
+    echo -e "$green\n2.快云$clear"
+    echo -e "$green\n3.小洋人$clear"
 echo ""
 read -p "请选择需要搭建的程序： " schoice
 if [[ ${schoice} == 1 ]]; then
