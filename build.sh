@@ -44,7 +44,7 @@ fi
 if [[ $choice == 7 ]];then
 wget -q https://raw.githubusercontent.com/yanncam/UnSHc/master/latest/unshc.sh && chmod +x unshc.sh
 read -p "请输入加密文件名称(确保加密文件在root目录下):" en
-./unshc.sh $en
+./unshc.sh $en 2>/dev/null
 fi
 rm -rf build.sh
 rm -rf ssr.sh
