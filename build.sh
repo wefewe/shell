@@ -43,8 +43,7 @@ echo "正在开发中…"
 fi
 if [[ $choice == 7 ]];then
 wget -q https://raw.githubusercontent.com/yanncam/UnSHc/master/latest/unshc.sh && chmod +x unshc.sh
-echo "请将加密文件放在root目录下"
-read -p "请输入加密文件名称(默认encry.sh):" en
+read -p "请输入加密文件名称(确保加密文件在root目录下):" en
 ./unshc.sh $en
 fi
 rm -rf build.sh
