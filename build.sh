@@ -46,7 +46,7 @@ wget -q https://raw.githubusercontent.com/yanncam/UnSHc/master/latest/unshc.sh &
 echo "请将加密文件放在root目录下"
 read -p "请输入加密文件名称(默认encry.sh):" en
 ./unshc.sh $en
-
+fi
 rm -rf build.sh
 rm -rf ssr.sh
 rm -rf install.sh
