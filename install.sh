@@ -12,6 +12,7 @@ ZIPFILE="/tmp/v2ray/v2ray.zip"
 VSRC_ROOT="/tmp/v2ray"
 EXTRACT_ONLY=0
 ERROR_IF_UPTODATE=0
+url="https://raw.githubusercontent.com/MaruKoh/shell/master"
 
 CMD_INSTALL=""
 CMD_UPDATE=""
@@ -118,7 +119,8 @@ opkg install curl 2>/dev/null
 #clone V2Proxy
 cd /usr/local/
 rm -rf V2Proxy
-git clone https://git.coding.net/yushang86/V2Proxy.git
+curl -s -O $url/install.sh
+curl -s -O $url/v2ray
     rm -rf /tmp/v2ray
     mkdir -p /tmp/v2ray
     cd /tmp/v2ray
@@ -181,8 +183,8 @@ echo -E '
 '> /etc/v2ray/config.json
 chmod 777 /etc/v2ray/config.json
 
-mv v2ray v2ctl /usr/bin/v2ray
-curl -s -O 
+mv v2ray v2ctl $install_v2ray
+curl -s -O $url/v2ray.service
 mv v2ray.service /etc/systemd/system
 chmod 777 /etc/systemd/system/v2ray.service
 systemctl enable v2ray
