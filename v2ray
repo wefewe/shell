@@ -1,0 +1,520 @@
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+#Check Root
+[ $(id -u) != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
+#读取
+       address=`curl -s http://members.3322.org/dyndns/getip`
+       config_file=`cat /etc/v2ray/config.json`
+       v2port=`echo "${config_file#*inbounds}" | grep port | grep -o [0-9][0-9]\*`
+       UUID=`echo "${config_file#*inbounds}" | awk -F'[:]' '/id/{print $2}' | awk -F ',' '{print $1}' | awk -F ' ' '{print $1}' | sed 's/"//g'`
+       Security=`echo "${config_file#*inbounds}" | awk -F'[:]' '/security/{print $2}' | awk -F ',' '{print $1}' | awk -F ' ' '{print $1}' | sed 's/"//g'`
+       AlterId=`echo "${config_file#*inbounds}" | grep alterId | grep -o [0-9][0-9]\*`
+       Network=`echo "${config_file#*streamSettings}" | awk -F ':' '/network/{print $2}' | awk -F ',' '{print $1}' | awk -F ' ' '{print $1}' | sed 's/"//g'`
+       Host=`echo "${config_file#*streamSettings}" | awk -F'[:]' '/Host/{print $2}' | awk -F ',' '{print $1}' | awk -F ' ' '{print $1}' | sed 's/"//g'`
+
+echo -e "\n\033[34m       欢迎使用 V2Proxy 管理程序 Author:南音\033[0m"
+echo ""
+echo -e "\n1.服务管理       2.更改配置"
+echo -e "\n3.配置信息       4.检查更新"
+echo -e "\n5.卸载程序"
+echo -e "\n请输入数字选择功能(按回车键退出)："
+
+while :; do echo
+	read -p "请选择： " choice
+	if [[ ! $choice =~ ^[1-5]$ ]]; then
+        if [[ -z ${choice} ]];then
+            exit 0
+        fi
+		echo "输入错误! 请输入正确的数字!"
+	else
+		break	
+	fi
+done
+
+if [[ ${choice} == 1 ]]; then
+    echo "1.启动服务"
+    echo "2.停止服务"
+    echo "3.重启服务"
+    echo "4.运行状态"
+    echo "5.运行日志"
+    while :; do echo
+	    read -p "请选择： " schoice
+	    if [[ ! $schoice =~ ^[1-5]$ ]]; then
+            if [[ -z ${schoice} ]];then
+                bash /usr/local/bin/v2ray
+                exit 0
+            fi
+		    echo "输入错误! 请输入正确的数字!"
+	    else
+		    break
+	    fi
+    done
+    if [[ ${schoice} == 1 ]]; then
+        service v2ray start
+        iptables -I INPUT -p tcp --dport $v2port -j ACCEPT
+        iptables -I INPUT -p udp --dport $v2port -j ACCEPT
+        echo "服务启动成功！"
+        bash /usr/local/bin/v2ray
+    fi
+    if [[ ${schoice} == 2 ]]; then
+        service v2ray stop
+        echo "服务停止成功！"
+        bash /usr/local/bin/v2ray
+    fi
+    if [[ ${schoice} == 3 ]]; then
+        service v2ray restart
+        iptables -I INPUT -p tcp --dport $v2port -j ACCEPT
+        iptables -I INPUT -p udp --dport $v2port -j ACCEPT
+        echo "服务已重启！"
+        bash /usr/local/bin/v2ray
+    fi
+    if [[ ${schoice} == 4 ]]; then
+        service v2ray status
+        bash /usr/local/bin/v2ray
+    fi
+    if [[ ${schoice} == 5 ]]; then
+        echo "按Ctrl + C 可以退出日志功能"
+        echo ""
+        tail -f /var/log/v2ray/access.log
+        bash /usr/local/bin/v2ray
+    fi
+fi
+
+if [[ ${choice} == 2 ]]; then
+    echo ""
+    echo "1.更改端口"
+    echo "2.更改UUID"
+    echo "3.更改AlterId"
+    echo "4.更改Security"
+    echo "5.更改传输方式"
+    echo "6.更改TLS设置"
+    echo ""
+    echo "请输入数字选择功能："
+    
+    while :; do echo
+	    read -p "请选择： " changechoice
+	    if [[ ! $changechoice =~ ^[1-6]$ ]]; then
+            if [[ -z ${changechoice} ]];then
+                bash /usr/local/bin/v2ray
+                exit 0
+            fi
+		    echo "输入错误! 请输入正确的数字!"
+	    else
+		    break
+	    fi
+    done
+    
+    if [[ ${changechoice} == 1 ]]; then
+        echo "当前端口为: $v2port"
+        read -p "请输入新端口(0-65535):" newport
+while :; do echo
+	    if [ "$newport" -gt 0 ]; then
+        sed -i "s/$v2port/$newport/g" /etc/v2ray/config.json
+        iptables -I INPUT -p tcp --dport $newport -j ACCEPT
+        iptables -I INPUT -p udp --dport $newport -j ACCEPT
+	    service v2ray restart        
+        echo ""
+        echo "端口修改成功！"
+        bash /usr/local/bin/v2ray
+		exit;0
+        else
+		    echo "请输入数字!"
+		bash /usr/local/bin/v2ray
+		exit;0
+	    fi
+    done
+    fi
+    
+    if [[ ${changechoice} == 2 ]]; then
+        echo "当前UUID为: $UUID"
+        read -p "随机生成新的UUID(默认回车):" newuuid
+	    if [ -z "$newuuid" ];then
+	    newuuid=$(cat /proc/sys/kernel/random/uuid)
+        sed -i "s/$UUID/$newuuid/g" /etc/v2ray/config.json
+        service v2ray restart
+        echo ""
+        echo "UUID修改成功!"
+        bash /usr/local/bin/v2ray
+        exit;0
+    fi
+    fi
+    if [[ ${changechoice} == 3 ]]; then
+        echo "当前AlterId为: $AlterId"
+        read -p "请输入新AlterId:" newalterId
+while :; do echo
+	    if [ "$newalterId" -gt 0 ] 2>/dev/null; then
+        sed -i "s/$AlterId/$newalterId/g" /etc/v2ray/config.json
+        service v2ray restart
+        echo ""
+        echo "AlterId修改成功！"
+        bash /usr/local/bin/v2ray
+		exit;0
+        else
+		    echo "请输入数字!"
+		bash /usr/local/bin/v2ray
+		exit;0
+	    fi
+    done
+    fi
+        if [[ ${changechoice} == 4 ]]; then
+        echo "当前Security为: $Security"
+        echo "1.none"
+        echo "2.auto"        
+        echo "3.aes-128-cfb"
+        echo "4.aes-128-gcm"
+        echo "5.chacha20-poly1305"
+        read -p "请选择新的加密方式:" sechoice
+        if [[ ${sechoice} == 1 ]];then
+        sed -i "s/$Security/none/g" /etc/v2ray/config.json        
+        elif [[ ${sechoice} == 2 ]];then
+        sed -i "s/$Security/auto/g" /etc/v2ray/config.json        
+        elif [[ ${sechoice} == 3 ]];then
+        sed -i "s/$Security/aes-128-cfb/g" /etc/v2ray/config.json
+        elif [[ ${sechoice} == 4 ]];then
+        sed -i "s/$Security/$aes-128-gcm/g" /etc/v2ray/config.json
+        elif [[ ${sechoice} == 5 ]];then
+        sed -i "s/$Security/$chacha20-poly1305/g" /etc/v2ray/config.json
+        fi
+        service v2ray restart
+        echo ""
+        echo "Security修改成功!"
+        bash /usr/local/bin/v2ray
+        exit;0
+    fi
+#inbouds config
+inbounds_config='{
+     "log": {
+     "access": "/var/log/v2ray/access.log",
+     "error": "/var/log/v2ray/error.log",
+     "loglevel": "info"
+     },
+     "inbounds": [
+     {
+     "port": '$v2port',
+     "protocol": "vmess",
+     "settings": {
+     "udp": true,
+     "clients": [
+     {
+       "id": "'$UUID'",
+       "alterId": '$AlterId',
+       "security": "'$Security'"
+           }
+        ]
+      },'
+outbounds_config='
+         "outbounds": [
+     {
+         "protocol": "freedom",
+         "settings": {}
+     }
+   ]
+ }'
+    if [[ ${changechoice} == 5 ]]; then
+        echo -e "\n当前传输方式为：$Network"
+        echo -e "请选择新的传输方式："
+        echo -e "1.TCP - HTTP"
+        echo -e "2.WebSocket"
+        echo -e "3.mKCP"
+        echo -e "4.mKCP - srtp"
+        echo -e "5.mKCP - utp"
+        echo -e "6.mKCP - wechat-video"
+        echo -e "7.mKCP - dtls"
+        echo -e "8.mKCP - wireguard"
+
+	    read -p "请选择： " cchoice
+	    
+if [[ ${cchoice} == 1 ]]; then
+read -p "请输入伪装的域名:" Host
+	if [ -z "$Host" ];then
+	Host=bing.cn
+	fi
+#inbouds
+http_config='
+      "streamSettings": {
+      "network": "tcp",
+      "tcpSettings": {
+      "header": {
+      "type": "http"
+      "Host": "'$Host'"
+          }
+        }
+      }
+    }
+  ],'	
+echo -E '
+     '"$inbounds_config"'
+     '"$http_config"'
+     '"$outbounds_config"'
+     ' >/etc/v2ray/config.json
+      echo "传输协议修改成功！"
+chmod 777 /etc/v2ray/config.json
+fi
+if [[ ${cchoice} == 2 ]]; then
+read -p "请输入WebSocket的HTTP路径(默认/):" ws_path
+	if [ -z "$ws_path" ];then
+	ws_path=/
+	fi
+read -p "请输入伪装的域名:" Host
+	if [ -z "$Host" ];then
+	Host=bing.cn
+	fi
+#ws config  
+ws_config='
+        "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+        "headers": {
+        "path": "'$ws_path'",
+        "Host": "'$Host'"        
+         }
+       }
+     }
+   }
+  ],'	
+echo -E '
+     '"$inbounds_config"'
+     '"$ws_config"'
+     '"$outbounds_config"'
+' >/etc/v2ray/config.json
+chmod 777 /etc/v2ray/config.json
+        echo "传输协议修改成功！"
+fi
+
+if [[ ${cchoice} == 3 ]]; then
+n='none'
+#kcp config
+kcp_config='
+      "streamSettings": {
+      "network": "kcp",
+      "kcpSettings": {
+      "mtu": 1350,
+      "tti": 50,
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": false,
+      "readBufferSize": 2,
+      "writeBufferSize": 2,
+      "header": {
+      "type": "'$n'"
+           }
+         }
+       }
+     }
+  ],'
+echo -E '
+     '"$inbounds_config"'
+     '"$kcp_config"'
+     '"$outbounds_config"'
+' >/etc/v2ray/config.json
+chmod 777 /etc/v2ray/config.json
+        echo "传输协议修改成功！"
+fi
+if [[ ${cchoice} == 4 ]]; then
+n='srtp'
+#kcp config
+kcp_config='
+      "streamSettings": {
+      "network": "kcp",
+      "kcpSettings": {
+      "mtu": 1350,
+      "tti": 50,
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": false,
+      "readBufferSize": 2,
+      "writeBufferSize": 2,
+      "header": {
+      "type": "'$n'"
+           }
+         }
+       }
+     }
+  ],'
+echo -E '
+     '"$inbounds_config"'
+     '"$kcp_config"'
+     '"$outbounds_config"'
+' >/etc/v2ray/config.json
+chmod 777 /etc/v2ray/config.json
+        echo "传输协议修改成功！"
+fi
+if [[ ${cchoice} == 5 ]]; then
+n='utp'
+#kcp config
+kcp_config='
+      "streamSettings": {
+      "network": "kcp",
+      "kcpSettings": {
+      "mtu": 1350,
+      "tti": 50,
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": false,
+      "readBufferSize": 2,
+      "writeBufferSize": 2,
+      "header": {
+      "type": "'$n'"
+           }
+         }
+       }
+     }
+  ],'
+echo -E '
+     '"$inbounds_config"'
+     '"$kcp_config"'
+     '"$outbounds_config"'
+' >/etc/v2ray/config.json
+chmod 777 /etc/v2ray/config.json
+        echo "传输协议修改成功！"
+fi
+if [[ ${cchoice} == 6 ]]; then
+n='wechat-video'
+#kcp config
+kcp_config='
+      "streamSettings": {
+      "network": "kcp",
+      "kcpSettings": {
+      "mtu": 1350,
+      "tti": 50,
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": false,
+      "readBufferSize": 2,
+      "writeBufferSize": 2,
+      "header": {
+      "type": "'$n'"
+           }
+         }
+       }
+     }
+  ],'
+echo -E '
+     '"$inbounds_config"'
+     '"$kcp_config"'
+     '"$outbounds_config"'
+' >/etc/v2ray/config.json
+chmod 777 /etc/v2ray/config.json
+        echo "传输协议修改成功！"
+fi
+if [[ ${cchoice} == 7 ]]; then
+n='dtls'
+#kcp config
+kcp_config='
+      "streamSettings": {
+      "network": "kcp",
+      "kcpSettings": {
+      "mtu": 1350,
+      "tti": 50,
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": false,
+      "readBufferSize": 2,
+      "writeBufferSize": 2,
+      "header": {
+      "type": "'$n'"
+           }
+         }
+       }
+     }
+  ],'
+echo -E '
+     '"$inbounds_config"'
+     '"$kcp_config"'
+     '"$outbounds_config"'
+' >/etc/v2ray/config.json
+chmod 777 /etc/v2ray/config.json
+        echo "传输协议修改成功！"
+fi
+if [[ ${cchoice} == 8 ]]; then
+n='wireguard'
+#kcp config
+kcp_config='
+      "streamSettings": {
+      "network": "kcp",
+      "kcpSettings": {
+      "mtu": 1350,
+      "tti": 50,
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": false,
+      "readBufferSize": 2,
+      "writeBufferSize": 2,
+      "header": {
+      "type": "'$n'"
+           }
+         }
+       }
+     }
+  ],'
+echo -E '
+     '"$inbounds_config"'
+     '"$kcp_config"'
+     '"$outbounds_config"'
+' >/etc/v2ray/config.json
+chmod 777 /etc/v2ray/config.json
+        echo "传输协议修改成功！"
+fi
+       service v2ray restart
+       bash /usr/local/bin/v2ray
+fi
+
+    if [[ ${changechoice} == 6 ]]; then
+echo "正在开发中…"
+        service v2ray restart
+        bash /usr/local/bin/v2ray    
+    fi
+fi
+
+if [[ ${choice} == 3 ]]; then
+       echo -e "\n\033[32mIP=$address\033[0m"
+       echo -e "\033[32mPort=$v2port\033[0m"
+       echo -e "\033[32mUUID=$UUID\033[0m"
+       echo -e "\033[32mAlterId=$AlterId\033[0m"
+       echo -e "\033[32mSecurity=$Security\033[0m"
+       echo -e "\033[32mNetwork=$Network\033[0m"
+       if [[ ${Network} == tcp ]]; then
+       echo -e "\033[32mHost=$Host\033[0m"
+       echo "v2rayNG的vmess链接"
+       v2rayNG=$(echo -n '{"add":"'$address'","aid":"'$AlterId'","host":"'$Host'","id":"'$UUID'","net":"'$Network'","path":"/","port":"'$v2port'","ps":"v2配置","tls":"","type":"http","v":"2"}' | base64 | tr -d "\n|=" | sed 's|^|vmess://|')
+       elif [[ ${Network} == ws ]];then
+       echo -e "\033[32mHost=$Host\033[0m"
+       echo "v2rayNG的vmess链接"
+       v2rayNG=$(echo -n '{"add":"'$address'","aid":"'$AlterId'","host":"'$Host'","id":"'$UUID'","net":"'$Network'","path":"/","port":"'$v2port'","ps":"v2配置","tls":"","type":"none","v":"2"}' | base64 | tr -d "\n|=" | sed 's|^|vmess://|')
+       fi
+       echo -e "\033[32m$v2rayNG\033[0m"
+       bash /usr/local/bin/v2ray
+fi
+
+if [[ ${choice} == 4 ]]; then
+cd /usr/local/
+git clone https://git.coding.net/yushang86/V2Proxy.git
+cd /usr/local/V2Proxy/
+
+rm -rf /usr/local/bin/v2ray
+cp /usr/local/V2Proxy/v2ray /usr/local/bin/
+chmod +x /usr/local/bin/v2ray
+
+#update v2ray Core
+bash <(curl -L -s https://install.direct/go.sh)
+clear
+echo -e "\033[34mupdate success!\033[0m"     
+fi
+if [[ ${choice} == 5 ]]; then
+#卸载V2ray官方脚本
+systemctl stop v2ray  >/dev/null 2>&1
+systemctl disable v2ray  >/dev/null 2>&1
+service v2ray stop  >/dev/null 2>&1
+update-rc.d -f v2ray remove  >/dev/null 2>&1
+rm -rf  /etc/v2ray >/dev/null 2>&1
+rm -rf /usr/bin/v2ray  >/dev/null 2>&1
+rm -rf /var/log/v2ray/  >/dev/null 2>&1
+rm -rf /etc/systemd/system/v2ray.service  >/dev/null 2>&1
+
+#卸载V2Proxy
+rm -rf /usr/local/V2Proxy >/dev/null 2>&1
+rm -rf /usr/local/bin/v2ray >/dev/null 2>&1
+rm -rf /etc/v2ray/config.json  >/dev/null 2>&1
+echo -e "\033[34mUninstall success! \033[0m "
+fi
