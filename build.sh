@@ -5,7 +5,13 @@ clear="\033[0m"
 
 url="https://raw.githubusercontent.com/MaruKoh"
 coding="https://coding.net/u/yushang86/p/ky/git/raw/master"
-
+if [ -f /etc/redhat-release ];then
+        OS='CentOS'
+    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+        OS='Debian'
+    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+        OS='Ubuntu'
+fi > /dev/null
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo -e "$green\n1.SSR$clear"
 echo -e "$green\n2.V2Ray$clear"
@@ -19,13 +25,6 @@ read -p "请选择需要搭建的程序： " choice
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
-elif [ -f /etc/redhat-release ];then
-        OS='CentOS'
-    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
-        OS='Debian'
-    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
-        OS='Ubuntu'
-fi > /dev/null
 elif [[ ${OS} == 'CentOS' ]] && [[ ${OS} == 'Debian' ]] && [[ ${OS} == 'Ubuntu' ]];then
 git clone https://git.coding.net/yushang86/V2Proxy.git
 else wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
