@@ -5,7 +5,7 @@ clear="\033[0m"
 
 url="https://raw.githubusercontent.com/MaruKoh"
 coding="https://coding.net/u/yushang86/p/ky/git/raw/master"
-if [ ! -z "OS_VERSION=`cat /etc/os-release |awk -F'[="]+' '/^ID=/ {print $2}'`" ];then
+if [ ! -z "`cat /etc/os-release |awk -F'[="]+' '/^ID=/ {print $2}'`" ];then
         OS='CentOS'
     elif [ ! -z "`cat /etc/issue | grep bian`" ];then
         OS='Debian'
