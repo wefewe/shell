@@ -11,7 +11,7 @@ if [ -f /etc/redhat-release ];then
         OS='Debian'
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
         OS='Ubuntu'
-fi > /dev/null
+fi 2>/dev/null
 echo -e "$bule   欢迎使用  Sakura 管理程序 Author:南音$clear"
 echo -e "$green\n1.SSR$clear"
 echo -e "$green\n2.V2Ray$clear"
