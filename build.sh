@@ -26,7 +26,7 @@ if [ ! -z "`cat /etc/os-release |awk -F'[="]+' '/^ID=/ {print $2}'`" ];then
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
         OS='Ubuntu'
 fi
-if [[ ${OS} == 'centos' -a ${OS} == 'Debian' -a ${OS} == 'Ubuntu' ]]
+if [[ ${OS} == 'centos' && ${OS} == 'Debian' && ${OS} == 'Ubuntu' ]]
 then wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
 else wget -q $url/shell/master/install.sh && bash install.sh;fi
 fi
