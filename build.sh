@@ -6,7 +6,7 @@ clear="\033[0m"
 url="https://raw.githubusercontent.com/MaruKoh"
 coding="https://coding.net/u/yushang86/p/ky/git/raw/master"
 if [ ! -z "`cat /etc/os-release |awk -F'[="]+' '/^ID=/ {print $2}'`" ];then
-        OS='CentOS'
+        OS='centos'
     elif [ ! -z "`cat /etc/issue | grep bian`" ];then
         OS='Debian'
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
@@ -25,7 +25,7 @@ read -p "请选择需要搭建的程序： " choice
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
-if [[ ${OS} == 'CentOS' ]] && [[ ${OS} == 'Debian' ]] && [[ ${OS} == 'Ubuntu' ]];then
+if [[ ${OS} == 'centos' ]] && [[ ${OS} == 'Debian' ]] && [[ ${OS} == 'Ubuntu' ]];then
 wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
 else wget -q $url/shell/master/install.sh && bash install.sh;fi
 fi
