@@ -34,6 +34,7 @@ elif [[ ${OS} == 'Ubuntu' ]]
 then wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
 else wget -q $url/shell/master/install.sh && bash install.sh;fi
 fi
+fi
 
 if [[ $choice == 3 ]];then
     wget 
