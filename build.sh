@@ -19,7 +19,18 @@ read -p "请选择需要搭建的程序： " choice
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
-    wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh;fi
+elif [ -f /etc/redhat-release ];then
+        OS='CentOS'
+    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+        OS='Debian'
+    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+        OS='Ubuntu'
+fi > /dev/null
+elif [[ ${OS} == 'CentOS' ]] && [[ ${OS} == 'Debian' ]] && [[ ${OS} == 'Ubuntu' ]];then
+git clone https://git.coding.net/yushang86/V2Proxy.git
+else wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
+wget -q $url/shell/master/install.sh && bash install.sh;fi
+
 if [[ $choice == 3 ]];then
     wget 
 -q $url/South/master/install.sh && bash install.sh;fi
