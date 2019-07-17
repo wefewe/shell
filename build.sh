@@ -19,12 +19,12 @@ read -p "请选择需要搭建的程序： " choice
 if [[ $choice == 1 ]];then
     echo "该项目正在构建中…";fi
 if [[ $choice == 2 ]];then
-if [ ! -z "`cat /etc/os-release | awk -F'[="]+' '/^ID=/ {print $2}'`" ];then
-        OS='centos'
-    elif [ ! -z "`cat /etc/os-release | awk -F'[="]+' '/^ID=/ {print $2}'`" ];then
-        OS='debian'
-    elif [ ! -z "`cat /etc/os-release | awk -F'[="]+' '/^ID=/ {print $2}'`" ];then
-        OS='ubuntu'
+if [ -f /etc/redhat-release ];then
+        OS='CentOS'
+    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+        OS='Debian'
+    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+        OS='Ubuntu
 fi
 if [[ ${OS} == 'centos' ]]
 then wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
