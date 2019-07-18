@@ -25,7 +25,7 @@ if [ -f /etc/redhat-release ];then
         OS='Debian'
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
         OS='Ubuntu'
-fi
+fi 2>/dev/null
 if [[ ${OS} == 'CentOS' ]]
 then wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
 elif [[ ${OS} == 'Debian' ]]
@@ -33,7 +33,6 @@ then wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh 
 elif [[ ${OS} == 'Ubuntu' ]]
 then wget -q https://coding.net/u/yushang86/p/V2Proxy/git/raw/master/install.sh && bash install.sh
 else wget -q $url/shell/master/install.sh && bash install.sh;fi
-fi
 fi
 
 if [[ $choice == 3 ]];then
