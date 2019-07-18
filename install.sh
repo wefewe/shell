@@ -70,6 +70,7 @@ read -p "请输入安装路径(默认/usr/bin/v2ray):" install_v2ray
 	install_v2ray=/usr/bin/v2ray
 	fi
 echo -e "已设置安装路径为:\033[32m "$install_v2ray"\033[0m"
+mkdir $install_v2ray
 read -p "请输入HTTP端口(默认80):" v2port
 	if [ -z "$v2port" ];then
 	v2port=80
@@ -110,13 +111,14 @@ fi
 
 echo -e "\033[32minstalling base…\033[0m"
 #安装依赖
-opkg install update 2>/dev/null
+opkg update 2>/dev/null
 opkg install unzip 2>/dev/null
 opkg install curl 2>/dev/null
 #install acme.sh
 #curl -s https://get.acme.sh | sh
 
 #clone V2Proxy
+mkdir /usr/local
 cd /usr/local/
 rm -rf V2Proxy
 curl -s -O $url/install.sh
