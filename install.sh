@@ -1,5 +1,5 @@
 #!/bin/bash
-export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+#export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 #check root
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
@@ -111,9 +111,9 @@ fi
 
 echo -e "\033[32minstalling base…\033[0m"
 #安装依赖
-opkg update 2>/dev/null
-opkg install unzip 2>/dev/null
-opkg install curl 2>/dev/null
+opkg update
+opkg install unzip
+opkg install curl
 #install acme.sh
 #curl -s https://get.acme.sh | sh
 
